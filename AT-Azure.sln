@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{075AD6A1-FAC6-4FFF-B023-8CCD71CCC159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAmigos", "ApiAmigos\ApiAmigos.csproj", "{4CC3B9A6-163E-4529-81FA-97874AEC29F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiPaises", "ApiPaises\ApiPaises.csproj", "{71959E6B-3EC4-48CE-A5B8-3A0B01C8BDEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{075AD6A1-FAC6-4FFF-B023-8CCD71CCC159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{075AD6A1-FAC6-4FFF-B023-8CCD71CCC159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{075AD6A1-FAC6-4FFF-B023-8CCD71CCC159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{075AD6A1-FAC6-4FFF-B023-8CCD71CCC159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CC3B9A6-163E-4529-81FA-97874AEC29F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CC3B9A6-163E-4529-81FA-97874AEC29F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CC3B9A6-163E-4529-81FA-97874AEC29F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CC3B9A6-163E-4529-81FA-97874AEC29F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71959E6B-3EC4-48CE-A5B8-3A0B01C8BDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71959E6B-3EC4-48CE-A5B8-3A0B01C8BDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71959E6B-3EC4-48CE-A5B8-3A0B01C8BDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71959E6B-3EC4-48CE-A5B8-3A0B01C8BDEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1298CBD-E104-450E-9145-30F8DE6FBA8F}
+	EndGlobalSection
+EndGlobal
