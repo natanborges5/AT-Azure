@@ -26,6 +26,7 @@ namespace WebApp
         {
             services.AddControllersWithViews();
             services.AddScoped<IPaisesApi, PaisesApi>();
+            services.AddScoped<IAmigosApi, AmigosApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

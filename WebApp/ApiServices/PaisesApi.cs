@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.ApiServices
 {
@@ -57,6 +58,24 @@ namespace WebApp.ApiServices
 
             var list = JsonConvert.DeserializeObject<List<ListarPaisViewModel>>(responseContent);
             return list;
+
+        }
+        public async Task<ListarPaisViewModel> GetAsync(string id)
+        {
+            var response = await _httpClient.GetAsync("api/Paises/"+ id);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<ListarPaisViewModel>(responseContent);
+
+        }
+        public async Task<ListarPaisViewModel> DeleteAsync(string id)
+        {
+            var response = await _httpClient.DeleteAsync("api/Paises/" + id);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<ListarPaisViewModel>(responseContent);
 
         }
     }

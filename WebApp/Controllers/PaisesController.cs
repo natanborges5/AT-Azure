@@ -30,9 +30,11 @@ namespace WebApp.Controllers
         }
 
         // GET: PaisesController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult>Details(string id)
         {
-            return View();
+            var viewModel = await _paisesApi.GetAsync(id);
+
+            return View(viewModel);
         }
 
         // GET: PaisesController/Create
@@ -63,15 +65,17 @@ namespace WebApp.Controllers
         
 
         // GET: PaisesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            var viewModel = await _paisesApi.GetAsync(id);
+
+            return View(viewModel);
         }
 
         // POST: PaisesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EditarPaisViewModel editarViewModel)
         {
             try
             {
@@ -84,16 +88,19 @@ namespace WebApp.Controllers
         }
 
         // GET: PaisesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(string id)
         {
-            return View();
+            var viewModel = await _paisesApi.GetAsync(id);
+
+            return View(viewModel);
         }
 
         // POST: PaisesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id, DeletarPaisViewModel deletarPaisViewModel)
         {
+            await _paisesApi.DeleteAsync(id);
             try
             {
                 return RedirectToAction(nameof(Index));

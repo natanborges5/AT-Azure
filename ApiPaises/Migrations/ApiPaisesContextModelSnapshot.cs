@@ -19,14 +19,37 @@ namespace ApiPaises.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApiPaises.Resources.PaisesResource.Paises", b =>
+            modelBuilder.Entity("ApiPaises.Domain.Estados", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid?>("PaisesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("fotoEstado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nomeEstado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("paisId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaisesId");
+
+                    b.ToTable("Estados");
+                });
+
+            modelBuilder.Entity("ApiPaises.Domain.Paises", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("fotoBandeiraPais")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("nome")
                         .HasColumnType("nvarchar(max)");
@@ -37,6 +60,13 @@ namespace ApiPaises.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Paises");
+                });
+
+            modelBuilder.Entity("ApiPaises.Domain.Estados", b =>
+                {
+                    b.HasOne("ApiPaises.Domain.Paises", null)
+                        .WithMany("Estados")
+                        .HasForeignKey("PaisesId");
                 });
 #pragma warning restore 612, 618
         }

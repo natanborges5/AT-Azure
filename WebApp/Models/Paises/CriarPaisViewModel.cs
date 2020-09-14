@@ -11,7 +11,6 @@ namespace WebApp.Models.Paises
         public string nome { get; set; }
         public IFormFile fotoPais { get; set; }
         public string urlFoto { get; set; }
-        public string fotoBandeiraPais { get; set; }
         public List<string> Erros { get; set; } = new List<string>();
     }
 }

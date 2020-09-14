@@ -6,6 +6,7 @@ using ApiPaises.Data;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ApiPaises.Domain;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -88,17 +89,31 @@ namespace ApiPaises.Resources.PaisesResource
         public ActionResult GetEstadosDoPais([FromRoute] Guid id)
         {
 
-            var pais = buscarPaisPorId(id);
+            var pais = _context.Paises.Find(id);
             if (pais == null)
                 return NotFound();
 
-            var estados = pais.Estados;
-            var response = _mapper.Map<List<EstadosResponse>>(pais.Estados);
+            var estados = _context.Estados.Where(x => x.paisId == id).ToList();
+            var response = _mapper.Map<List<EstadosResponse>>(estados);
 
             return Ok(response);
 
 
         }
+        [HttpPost("{id}/estados")]
+        public ActionResult PostEstadosDoPais([FromRoute] Guid id, [FromBody] EstadosRequest request)
+        {
+            var pais = _context.Paises.Find(id);
+
+            if (pais == null)
+                return NotFound(); //404
+
+            var response = criarEstado(id, request);
+
+            return CreatedAtAction(nameof(PostEstadosDoPais), new { response.Id }, response); //201
+        }
+
+
 
 
         /////////////////////////////////////////////////////////////////////
@@ -144,47 +159,19 @@ namespace ApiPaises.Resources.PaisesResource
             var paises = _context.Paises.ToList();
             return _mapper.Map<IEnumerable<PaisesResponse>>(paises);
         }
-    }
-
-
-    public class PaisesRequest
-    {
-        public string nome { get; set; }
-        public string fotoBandeiraPais { get; set; }
-        public string urlFoto { get; set; }
-
-        public List<string> Erros()
+        private EstadosResponse criarEstado(Guid id, EstadosRequest request)
         {
-            return new List<string>();
+            var estado = _mapper.Map<Estados>(request);
+            estado.paisId = id;
+            
+
+            _context.Estados.Add(estado);
+            _context.SaveChanges();
+
+            var response = _mapper.Map<EstadosResponse>(estado);
+
+            return response;
         }
-    }
-    public class Paises
-    {
-        public Guid Id { get; set; }
-        public string nome { get; set; }
-        public string fotoBandeiraPais { get; set; }
-        public string urlFoto { get; set; }
-        public List<Estados> Estados { get; set; }
-    }
-    public class Estados
-    {
-        public int Id { get; set; }
-        public string nomeEstado { get; set; }
-        public string fotoEstado { get; set; }
-
-    }
-    public class PaisesResponse
-    {
-        public Guid Id { get; set; }
-        public string nome { get; set; }
-        public string fotoBandeiraPais { get; set; }
-        public List<EstadosResponse> Estados { get; internal set; }
-    }
-    public class EstadosResponse
-    {
-        public string nomeEstado { get; set; }
-        public string fotoEstado { get; set; }
-
     }
 
 }

@@ -12,7 +12,7 @@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="nome" class="control-label"></label>
+                <label asp-for="nome" class="control-label">Nome do pais</label>
                 <input asp-for="nome" class="form-control" />
                 <span asp-validation-for="nome" class="text-danger"></span>
             </div>
@@ -22,11 +22,6 @@
                 <span validation-for="fotoPais" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="fotoBandeiraPais" class="control-label"></label>
-                <input asp-for="fotoBandeiraPais" class="form-control" />
-                <span asp-validation-for="fotoBandeiraPais" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -34,7 +29,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volta para a lista</a>
 </div>
 
 @section Scripts {

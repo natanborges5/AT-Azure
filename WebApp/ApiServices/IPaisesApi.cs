@@ -10,6 +10,8 @@ namespace WebApp.ApiServices
     {
         Task<CriarPaisViewModel> PostAsync(CriarPaisViewModel criarPaisViewModel);
         Task<List<ListarPaisViewModel>> GetAsync();
+        Task<ListarPaisViewModel> GetAsync(string id);
+        Task<ListarPaisViewModel> DeleteAsync(string id);
     }
 
 }

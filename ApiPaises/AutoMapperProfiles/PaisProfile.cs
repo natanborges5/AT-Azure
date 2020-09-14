@@ -1,4 +1,5 @@
-﻿using ApiPaises.Resources.PaisesResource;
+﻿using ApiPaises.Domain;
+using ApiPaises.Resources.PaisesResource;
 using AutoMapper;
 using System;
 using System.Collections.Generic;

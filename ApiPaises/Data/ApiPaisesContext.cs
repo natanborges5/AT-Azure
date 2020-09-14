@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ApiPaises.Resources.PaisesResource;
+using ApiPaises.Domain;
 
 namespace ApiPaises.Data
 {
@@ -15,5 +16,6 @@ namespace ApiPaises.Data
         }
 
         public DbSet<Paises> Paises { get; set; }
+        public DbSet<Estados> Estados { get; set; }
     }
 }

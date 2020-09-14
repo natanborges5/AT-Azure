@@ -4,33 +4,76 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Storage.Blob;
+using WebApp.ApiServices;
+using WebApp.Models.Amigo;
 
 namespace WebApp.Controllers
 {
     public class AmigosController : Controller
     {
-        // GET: AmigosController
-        public ActionResult Index()
+        private readonly IAmigosApi _amigosApi;
+
+        public AmigosController(IAmigosApi amigosApi)
         {
-            return View();
+            _amigosApi = amigosApi;
         }
 
-        // GET: AmigosController/Details/5
-        public ActionResult Details(int id)
+        // GET: PaisesController
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var paises = await _amigosApi.GetAsync();
+
+            return View(paises);
         }
 
-        // GET: AmigosController/Create
+        // GET: PaisesController/Details/5
+        public async Task<ActionResult> Details(string id)
+        {
+            var viewModel = await _amigosApi.GetAsync(id);
+
+            return View(viewModel);
+        }
+
+        // GET: PaisesController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: AmigosController/Create
+        // POST: PaisesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CriarAmigoViewModel criarAmigoViewModel)
+        {
+            var URLFoto = UploadFotoPais(criarAmigoViewModel.fotoAmigo);
+            criarAmigoViewModel.urlFoto = URLFoto;
+            await _amigosApi.PostAsync(criarAmigoViewModel);
+
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
+        // GET: PaisesController/Edit/5
+        public async Task<ActionResult> Edit(string id)
+        {
+            var viewModel = await _amigosApi.GetAsync(id);
+
+            return View(viewModel);
+        }
+
+        // POST: PaisesController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, EditarAmigoViewModel editarAmigoViewModel)
         {
             try
             {
@@ -42,17 +85,20 @@ namespace WebApp.Controllers
             }
         }
 
-        // GET: AmigosController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: PaisesController/Delete/5
+        public async Task<ActionResult> Delete(string id)
         {
-            return View();
+            var viewModel = await _amigosApi.GetAsync(id);
+
+            return View(viewModel);
         }
 
-        // POST: AmigosController/Edit/5
+        // POST: PaisesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id, DeletarAmigoViewModel deletarAmigoViewModel)
         {
+            await _amigosApi.DeleteAsync(id);
             try
             {
                 return RedirectToAction(nameof(Index));
@@ -62,26 +108,19 @@ namespace WebApp.Controllers
                 return View();
             }
         }
-
-        // GET: AmigosController/Delete/5
-        public ActionResult Delete(int id)
+        private string UploadFotoPais(IFormFile fotoAmigo)
         {
-            return View();
-        }
 
-        // POST: AmigosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+            var reader = fotoAmigo.OpenReadStream();
+            var cloudStorageAccount = Microsoft.Azure.Storage.CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=atazure;AccountKey=kYFNYaj+czoH0m4kgp/jg+BogNCCsMBR33ls6mKZlRqGi/3rzxNNtXQeuaCt8MGhy3tcbhz/AWPrxhQA8E7DzQ==;EndpointSuffix=core.windows.net");
+            var blobClient = cloudStorageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference("fotoperfil");
+            container.CreateIfNotExists();
+            var blob = container.GetBlockBlobReference(Guid.NewGuid().ToString());
+            blob.UploadFromStream(reader);
+            var destinoDaImagemNaNuvem = blob.Uri.ToString();
+            return destinoDaImagemNaNuvem;
         }
     }
 }
